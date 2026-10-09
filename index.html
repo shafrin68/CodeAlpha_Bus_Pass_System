@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud-Based Bus Pass System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #cccccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1b5e20;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f1f8e9;
+            border-radius: 5px;
+            overflow-wrap: anywhere;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🚌 Online Bus Pass</h1>
+
+    <p style="text-align:center;">
+        Apply for your student bus pass online.
+    </p>
+
+    <form id="busForm">
+
+        <label for="name">Student Name</label>
+        <input type="text" id="name" required>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" min="1" max="120" required>
+
+        <label for="college">College Name</label>
+        <input type="text" id="college" required>
+
+        <label for="route">Bus Route</label>
+        <input type="text" id="route"
+               placeholder="Example: Home to College" required>
+
+        <label for="duration">Pass Duration</label>
+        <select id="duration" required>
+            <option value="">Select Duration</option>
+            <option value="1 Month">1 Month</option>
+            <option value="3 Months">3 Months</option>
+            <option value="6 Months">6 Months</option>
+        </select>
+
+        <button type="submit">Apply for Bus Pass</button>
+
+    </form>
+
+    <div id="result" class="hidden" aria-live="polite"></div>
+
+</div>
+
+<script>
+    document.getElementById("busForm")
+        .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const age = Number(document.getElementById("age").value);
+        const college = document.getElementById("college").value.trim();
+        const route = document.getElementById("route").value.trim();
+        const duration = document.getElementById("duration").value;
+
+        if (!name || !college || !route ||
+            age < 1 || age > 120 || !duration) {
+
+            alert("Please enter valid details.");
+            return;
+        }
+
+        const applicationId =
+            "BUS" + Date.now().toString().slice(-8);
+
+        const result = document.getElementById("result");
+
+        result.replaceChildren();
+
+        const heading = document.createElement("h3");
+        heading.textContent = "Application Submitted Successfully!";
+
+        const details = [
+            "Application ID: " + applicationId,
+            "Student Name: " + name,
+            "Age: " + age,
+            "College: " + college,
+            "Bus Route: " + route,
+            "Pass Duration: " + duration,
+            "Status: Pending Approval"
+        ];
+
+        result.appendChild(heading);
+
+        details.forEach(function(detail) {
+            const paragraph = document.createElement("p");
+            paragraph.textContent = detail;
+            result.appendChild(paragraph);
+        });
+
+        result.classList.remove("hidden");
+    });
+</script>
+
+</body>
+</html>
